@@ -1,0 +1,47 @@
+General Journal
+    transaction_date,
+    affected_account,
+    account_id,
+    debit,
+    credit,
+    description,
+    source_document_type,
+    source document,
+
+
+General Ledger
+  date,
+  general_journal_page_id,
+  affected_account,
+  debit,
+  credit,
+
+*----------------*
+
+normalization
+    GeneralJournal
+        description
+        journalDate
+        createdAt
+        updatedAt
+        sourceDocumentId
+
+    JournalEntry
+        generalJournalId
+        effectedCOAId
+        isDebit
+        amount
+        description
+
+    SourceDocument
+        name
+        documentType
+        documentDate
+        documentNumber
+        filePath
+        storageLocation
+
+    COA
+        code
+        name
+        isHidden

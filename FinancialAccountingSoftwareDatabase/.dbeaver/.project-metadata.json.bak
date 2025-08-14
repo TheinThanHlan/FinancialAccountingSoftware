@@ -1,0 +1,1 @@
+{"resources":{"Scripts/create_databases.sql":{"default-datasource":"sqlite_jdbc-198299f5c5c-36a52702abf551a2"},"Scripts/insert_chart_of_accounts.sql":{"default-datasource":"sqlite_jdbc-198299f5c5c-36a52702abf551a2"}}}

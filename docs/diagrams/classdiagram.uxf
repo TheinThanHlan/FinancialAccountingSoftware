@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.1">
+  <zoom_level>6</zoom_level>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>474</x>
+      <y>198</y>
+      <w>294</w>
+      <h>162</h>
+    </coordinates>
+    <panel_attributes>dao</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>180</x>
+      <y>372</y>
+      <w>276</w>
+      <h>156</h>
+    </coordinates>
+    <panel_attributes>Home</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>336</x>
+      <y>108</y>
+      <w>126</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>ApplicationConfig
+--
+config():Future&lt;void&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>180</x>
+      <y>198</y>
+      <w>276</w>
+      <h>162</h>
+    </coordinates>
+    <panel_attributes>model</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

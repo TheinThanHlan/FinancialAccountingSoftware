@@ -1,0 +1,25 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/27.0.9 Chrome/134.0.6998.205 Electron/35.6.0 Safari/537.36" version="27.0.9">
+  <diagram name="Page-1" id="2nRrqhnb5a-VOsMXQsvd">
+    <mxGraphModel dx="868" dy="556" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="crczGmT6R2dWqmakCXiJ-3" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="40" y="40" width="233" height="720" as="geometry" />
+        </mxCell>
+        <mxCell id="crczGmT6R2dWqmakCXiJ-5" value="&lt;span style=&quot;font-size: 18px;&quot;&gt;General Journal&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="50.5" y="150" width="212" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="crczGmT6R2dWqmakCXiJ-6" value="Menu" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=21;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="124.75" y="80" width="63.5" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="crczGmT6R2dWqmakCXiJ-8" value="&lt;span style=&quot;font-size: 18px;&quot;&gt;Chart of accounts&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="50.5" y="370" width="212" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="crczGmT6R2dWqmakCXiJ-9" value="&lt;span style=&quot;font-size: 18px;&quot;&gt;General Ledger&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="50" y="260" width="212" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
