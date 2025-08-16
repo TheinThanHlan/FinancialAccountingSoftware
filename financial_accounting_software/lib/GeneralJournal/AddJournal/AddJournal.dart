@@ -95,13 +95,43 @@ class AddJournal extends StatelessWidget {
                       "Transaction Date : ",
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
-                    title: Text(
-                      "1/1/2004",
-                      style: Theme.of(context).textTheme.bodyLarge,
+                    title: ValueListenableBuilder(
+                      valueListenable: c.journalEntryDateTimeChangeNotifier,
+                      builder: (context, value, child) => Text(
+                        "${c.generalJournal.journalDate.day}/${c.generalJournal.journalDate.month}/${c.generalJournal.journalDate.year} - ${c.generalJournal.journalDate.hour}:${c.generalJournal.journalDate.minute}",
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
                     ),
                     trailing: IconButton(
                       icon: Icon(Icons.edit_calendar_outlined),
-                      onPressed: () {},
+                      onPressed: () async {
+                        showDatePicker(
+                          context: context,
+                          initialDate: c.generalJournal.journalDate,
+                          firstDate: DateTime(0),
+                          lastDate: DateTime(100000),
+                        ).then((a) {
+                          if (a != null) {
+                            showTimePicker(
+                              initialTime: TimeOfDay(
+                                hour: c.generalJournal.journalDate.day,
+                                minute: c.generalJournal.journalDate.minute,
+                              ),
+                              initialEntryMode: TimePickerEntryMode.inputOnly,
+                              context: context,
+                            ).then((b) {
+                              if (b != null) {
+                                c.generalJournal.journalDate = a.copyWith(
+                                  hour: b.hour,
+                                  minute: b.minute,
+                                );
+                                c.journalEntryDateTimeChangeNotifier.value =
+                                    !c.journalEntryDateTimeChangeNotifier.value;
+                              }
+                            });
+                          }
+                        });
+                      },
                     ),
                   ),
                 ),

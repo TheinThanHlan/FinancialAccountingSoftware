@@ -21,6 +21,9 @@ class AddJournalController implements WinterController {
 
   //list of journal entry
   final ValueNotifier<List<JournalEntry>> entries = ValueNotifier([]);
+  final ValueNotifier<bool> journalEntryDateTimeChangeNotifier = ValueNotifier(
+    false,
+  );
   late final ValueNotifier<List<COA>> chart_of_account_notifier;
   final ValueNotifier<DateTime> createdDate = ValueNotifier(DateTime.now());
   //variables use in dilog

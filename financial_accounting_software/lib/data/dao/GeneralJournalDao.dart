@@ -17,4 +17,25 @@ class GeneralJournalDao {
       });
     }
   }
+
+  Future<List<GeneralJournal>> filterWithDate(DateTime targetDateTime) async {
+    var x = await _db.query(
+      "GeneralJournal",
+      where:
+          "journalDate>${targetDateTime.millisecondsSinceEpoch} and journalDate<${targetDateTime.copyWith(day: targetDateTime.day + 1).millisecondsSinceEpoch}",
+      orderBy: "journalDate",
+    );
+    List<GeneralJournal> tmp = x
+        .map(
+          (a) => GeneralJournal(
+            a["id"] as int,
+            a["description"] as String,
+            DateTime.fromMillisecondsSinceEpoch(a["journalDate"] as int),
+            [],
+          ),
+        )
+        .toList();
+
+    return tmp;
+  }
 }

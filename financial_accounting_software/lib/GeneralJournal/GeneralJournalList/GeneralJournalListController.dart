@@ -9,7 +9,9 @@ class GeneralJournalListController implements WinterController {
   late final GeneralJournalList view;
   late final LanguageFactory languageFactory;
   //final module = getIt<GetIt>(instanceName:);
-  final ValueNotifier<DateTime> targetDate = ValueNotifier(DateTime.now());
+  final ValueNotifier<DateTime> targetDate = ValueNotifier(
+    DateTime.now().copyWith(hour: 0, minute: 0, second: 0),
+  );
   GeneralJournalListController(this.view, this.languageFactory, {this.data}) {
     this.view.c = this;
   }

@@ -1,4 +1,5 @@
 import 'package:financial_accounting_software/GlobalStyle.dart';
+import 'package:financial_accounting_software/data/dao/GeneralJournalDao.dart';
 import 'package:flutter/material.dart';
 import './GeneralJournalListController.dart';
 import 'package:winter/winter.dart';
@@ -26,13 +27,8 @@ class GeneralJournalList extends StatelessWidget {
                   leading: Icon(Icons.edit_calendar),
                   title: ValueListenableBuilder(
                     valueListenable: c.targetDate,
-                    builder: (context, value, child) => Text(
-                      value.day.toString() +
-                          "/" +
-                          value.month.toString() +
-                          "/" +
-                          value.year.toString(),
-                    ),
+                    builder: (context, value, child) =>
+                        Text("${value.day}/${value.month}/${value.year}"),
                   ),
                   onTap: () {
                     showDatePicker(
@@ -55,7 +51,47 @@ class GeneralJournalList extends StatelessWidget {
             ],
           ),
         ),
-        Expanded(child: Container(color: Colors.blue)),
+        Expanded(
+          child: ValueListenableBuilder(
+            valueListenable: c.targetDate,
+            builder: (context, value, child) => FutureBuilder(
+              future: getIt<GeneralJournalDao>().filterWithDate(value),
+              builder: (context, snapshot) => SingleChildScrollView(
+                child: SizedBox(
+                  width: double.maxFinite,
+                  child: DataTable(
+                    columns: [
+                      DataColumn(label: Text("Time")),
+                      DataColumn(label: Text("Description")),
+                      DataColumn(label: Container()),
+                    ],
+                    rows: [
+                      if (snapshot.data != null)
+                        ...snapshot.data!.map(
+                          (a) => DataRow(
+                            cells: [
+                              DataCell(
+                                Text(
+                                  "${a.journalDate.hour}:${a.journalDate.minute}:${a.journalDate.second}",
+                                ),
+                              ),
+                              DataCell(Text(a.description)),
+                              DataCell(
+                                ElevatedButton(
+                                  onPressed: () {},
+                                  child: Text("Details"),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }
