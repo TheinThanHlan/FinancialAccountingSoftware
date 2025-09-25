@@ -10,13 +10,13 @@ class GeneralJournal {
 
   double findBalanceValue() {
     double tmp = 0;
-    entries.forEach((a) {
+    for (var a in entries) {
       if (a.isDebit == a.affectedAccount.isIncreaseInDebit) {
         tmp += a.amount;
       } else {
         tmp -= a.amount;
       }
-    });
+    }
     return tmp;
   }
 

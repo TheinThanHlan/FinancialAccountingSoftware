@@ -9,7 +9,7 @@ class GeneralLedgerController {
   late final LanguageFactory languageFactory;
   //final module = getIt<GetIt>(instanceName:);
   GeneralLedgerController(this.view,this.languageFactory,{this.data}){
-   this.view.c=this;
+   view.c=this;
   }
   String greet = "Hello from GeneralLedgerPage";
   void reset(){}

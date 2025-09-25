@@ -19,14 +19,11 @@ class HomeController {
     "General Ledger": getIt<GeneralLedgerController>().view,
     "Chart Of Accounts": getIt<ChartOfAccountsController>().view,
   };
-  List<SupportedLanguage> supportedLanguages = [
-    SupportedLanguage("mm", "Myanmar"),
-    SupportedLanguage("en", "English"),
-  ];
+  List<SupportedLanguage> supportedLanguages = [SupportedLanguage("mm", "Myanmar"), SupportedLanguage("en", "English")];
   //final module = getIt<GetIt>(instanceName:);
   HomeController(this.view, this.languageFactory, {this.data}) {
-    this.view.c = this;
-    this.currentPage = ValueNotifier(pages.keys.first);
+    view.c = this;
+    currentPage = ValueNotifier(pages.keys.first);
   }
 
   String greet = "Hello from HomePage";

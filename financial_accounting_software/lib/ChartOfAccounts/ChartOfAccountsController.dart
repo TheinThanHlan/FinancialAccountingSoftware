@@ -18,26 +18,18 @@ class ChartOfAccountsController {
 
   late ValueNotifier<Widget> currentPage;
   ChartOfAccountsController(this.view, this.languageFactory, {this.data}) {
-    this.view.c = this;
-    currentPage = ValueNotifier(
-      getIt<COAListController>(
-        param1: COAListModel(openAddNewAccountWindow),
-      ).getView(),
-    );
+    view.c = this;
+    currentPage = ValueNotifier(getIt<COAListController>(param1: COAListModel(openAddNewAccountWindow)).getView());
   }
   String greet = "Hello from ChartOfAccountsPage";
 
   void completeAddNewAccount() {
-    currentPage.value = getIt<COAListController>(
-      param1: COAListModel(openAddNewAccountWindow),
-    ).getView();
+    currentPage.value = getIt<COAListController>(param1: COAListModel(openAddNewAccountWindow)).getView();
   }
 
   void openAddNewAccountWindow() {
     if (currentPage.value is COAList) {
-      currentPage.value = getIt<AddNewAccountController>(
-        param1: AddNewAccountModel(completeAddNewAccount),
-      ).getView();
+      currentPage.value = getIt<AddNewAccountController>(param1: AddNewAccountModel(completeAddNewAccount)).getView();
     }
   }
 

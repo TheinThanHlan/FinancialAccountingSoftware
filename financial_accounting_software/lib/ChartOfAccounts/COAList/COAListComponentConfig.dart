@@ -7,19 +7,11 @@ import 'package:winter/winter.dart';
 import 'languages/LanguageFactory.dart';
 
 class COAListComponentConfig implements Configurer {
+  @override
   Future<void> config({String? instanceName}) async {
-    getIt.registerFactoryParam<COAListController, COAListModel, Null>(
-      instanceName: instanceName,
-      (p1, p2) {
-        return COAListController(
-          COAList(),
-          LanguageFactory(
-            getIt<ValueNotifier<String>>(instanceName: "currentLanguage"),
-          ),
-          data: p1,
-        );
-      },
-    );
+    getIt.registerFactoryParam<COAListController, COAListModel, Null>(instanceName: instanceName, (p1, p2) {
+      return COAListController(COAList(), LanguageFactory(getIt<ValueNotifier<String>>(instanceName: "currentLanguage")), data: p1);
+    });
     debugPrint("\t~>\tCOAList injected;");
   }
 }

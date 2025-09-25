@@ -3,12 +3,12 @@ import 'package:winter/winter.dart';
 import 'package:flutter/foundation.dart';
 
 class LanguageFactory {
-  Map<String, Language> _languages = {"en": English()};
-  ValueNotifier<String> _currentLanguage;
+  final Map<String, Language> _languages = {"en": English()};
+  final ValueNotifier<String> _currentLanguage;
   LanguageFactory(this._currentLanguage);
 
   String getLang(int index) {
-    return (_languages[this._currentLanguage.value] ?? _languages["en"])!
+    return (_languages[_currentLanguage.value] ?? _languages["en"])!
         .content[index];
   }
 }

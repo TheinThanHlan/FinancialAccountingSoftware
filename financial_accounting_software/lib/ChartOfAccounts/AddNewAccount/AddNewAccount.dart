@@ -1,11 +1,14 @@
 import 'package:financial_accounting_software/GlobalStyle.dart';
+import 'package:financial_accounting_software/data/dao/COADao.dart';
+import 'package:financial_accounting_software/data/model/COA.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import './AddNewAccountController.dart';
 import 'package:winter/winter.dart';
 
 class AddNewAccount extends StatelessWidget {
   late final AddNewAccountController c;
-  AddNewAccount();
+
   @override
   Widget build(BuildContext context) {
     //    return LayoutBuilder(builder: (context, constraints) {
@@ -15,7 +18,7 @@ class AddNewAccount extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Container(
-          color: getIt<GlobalStyle>().backgroundColor,
+          //color: getIt<GlobalStyle>().backgroundColor,
           child: Row(
             spacing: 13,
             children: [
@@ -27,10 +30,7 @@ class AddNewAccount extends StatelessWidget {
                   },
                 ),
               ),
-              Text(
-                c.languageFactory.getLang(0),
-                style: Theme.of(context).textTheme.headlineLarge,
-              ),
+              Text(c.languageFactory.getLang(0), style: Theme.of(context).textTheme.headlineLarge),
             ],
           ),
         ),
@@ -41,21 +41,23 @@ class AddNewAccount extends StatelessWidget {
               spacing: 34,
               children: [
                 TextFormField(
-                  decoration: InputDecoration(
-                    label: Text(c.languageFactory.getLang(1)),
-                  ),
+                  decoration: InputDecoration(label: Text(c.languageFactory.getLang(1))),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return c.languageFactory.getLang(2);
                     }
                     return null;
                   },
+                  onChanged: (a) {
+                    c.account = a;
+                  },
                 ),
                 TextFormField(
-                  decoration: InputDecoration(
-                    label: Text(c.languageFactory.getLang(3)),
-                  ),
-
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  decoration: InputDecoration(label: Text(c.languageFactory.getLang(3))),
+                  onChanged: (a) {
+                    c.code = int.parse(a);
+                  },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return c.languageFactory.getLang(4);
@@ -85,11 +87,11 @@ class AddNewAccount extends StatelessWidget {
                                 value: a.key,
                                 groupValue: value,
                                 onChanged: (v) {
-                                  this.c.debitOrCredit.value = a.key;
+                                  c.debitOrCredit.value = a.key;
                                 },
                               ),
                               onTap: () {
-                                this.c.debitOrCredit.value = a.key;
+                                c.debitOrCredit.value = a.key;
                               },
                             ),
                           );
@@ -101,7 +103,9 @@ class AddNewAccount extends StatelessWidget {
                 ElevatedButton(
                   child: Text(c.languageFactory.getLang(8)),
                   onPressed: () {
-                    c.formKey.currentState!.validate();
+                    if (c.formKey.currentState!.validate()) {
+                      getIt<COADao>().add(COA(0, c.code, c.account, c.debitAndCredit[c.debitOrCredit] ?? false, false));
+                    }
                   },
                 ),
               ],

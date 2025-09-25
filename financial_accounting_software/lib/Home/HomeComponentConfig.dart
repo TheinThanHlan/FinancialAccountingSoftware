@@ -10,16 +10,9 @@ import 'package:winter/winter.dart';
 import 'languages/LanguageFactory.dart';
 
 class HomeComponentConfig implements Configurer {
+  @override
   Future<void> config({String? instanceName}) async {
-    getIt.registerSingleton(
-      instanceName: instanceName,
-      HomeController(
-        Home(),
-        LanguageFactory(
-          getIt<ValueNotifier<String>>(instanceName: "currentLanguage"),
-        ),
-      ),
-    );
+    getIt.registerSingleton(instanceName: instanceName, HomeController(Home(), LanguageFactory(getIt<ValueNotifier<String>>(instanceName: "currentLanguage"))));
     debugPrint("\t~>\tHome injected;");
   }
 }

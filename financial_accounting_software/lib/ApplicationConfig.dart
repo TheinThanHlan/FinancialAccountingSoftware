@@ -11,20 +11,14 @@ class ApplicationConfig implements Configurer {
   @override
   Future<void> config({String? instanceName}) async {
     getIt.registerSingleton<GlobalStyle>(GlobalStyle());
-    getIt.registerSingleton<ValueNotifier<String>>(
-      ValueNotifier("en"),
-      instanceName: "currentLanguage",
-    );
+    getIt.registerSingleton<ValueNotifier<String>>(ValueNotifier("en"), instanceName: "currentLanguage");
 
-    String accounting_db = "accounting_db";
+    String accountingDb = "accounting_db";
     getIt.registerSingletonAsync(
-      () async => WinterSqliteDatabaseProvider(accounting_db, 1, [
-        "resources/Scripts/create_databases.sql",
-        "resources/Scripts/insert_chart_of_accounts.sql",
-      ]).getDatabase(),
-      instanceName: accounting_db,
+      () async => WinterSqliteDatabaseProvider(accountingDb, 1, ["resources/Scripts/create_databases.sql", "resources/Scripts/insert_chart_of_accounts.sql"]).getDatabase(),
+      instanceName: accountingDb,
     );
-    await getIt.isReady<Database>(instanceName: accounting_db);
+    await getIt.isReady<Database>(instanceName: accountingDb);
     DAOConfiguration().config();
     GeneralJournalComponentConfig().config();
     GeneralLedgerComponentConfig().config();

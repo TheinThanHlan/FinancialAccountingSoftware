@@ -1,6 +1,8 @@
 import 'package:financial_accounting_software/GeneralJournal/AddJournal/all.dart';
 import 'package:financial_accounting_software/GeneralJournal/GeneralJournalList/all.dart';
+import 'package:financial_accounting_software/GeneralJournal/JournalDetails/all.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import 'GeneralJournalModel.dart';
 import 'GeneralJournal.dart';
@@ -16,9 +18,12 @@ class GeneralJournalController {
   //I created the instant in class level to journal list as singleton in this scope.
   late final GeneralJournalListController journalList;
   GeneralJournalController(this.view, this.languageFactory, {this.data}) {
-    this.view.c = this;
+    view.c = this;
     journalList = getIt<GeneralJournalListController>(
-      param1: GeneralJournalListModel(openAddJournal: openAddJournal),
+      param1: GeneralJournalListModel(
+        openAddJournal: openAddJournal,
+        openJournalDetails: openJournalDetails,
+      ),
     );
     currentPage = ValueNotifier(journalList.getView());
     //currentPage = ValueNotifier(Container());
@@ -27,11 +32,21 @@ class GeneralJournalController {
   void reset() {}
   void openAddJournal() {
     currentPage.value = getIt<AddJournalController>(
-      param1: AddJournalModel(closeAddJournal: closeAddJournal),
+      param1: AddJournalModel(closeAddJournal: comeBackToMainPage),
     ).getView();
   }
 
-  void closeAddJournal() {
+  void comeBackToMainPage() {
     currentPage.value = journalList.getView();
+  }
+
+  void openJournalDetails(BuildContext context, int journalId) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => getIt<JournalDetailsController>(
+          param1: JournalDetailsModel(journalId: journalId),
+        ).getView(),
+      ),
+    );
   }
 }

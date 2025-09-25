@@ -7,7 +7,8 @@ import 'package:winter/winter.dart';
 import 'languages/LanguageFactory.dart';
 
 class GeneralLedgerComponentConfig implements Configurer{
- Future<void> config({String?instanceName})async{
+ @override
+  Future<void> config({String?instanceName})async{
   getIt.registerSingleton(instanceName:instanceName,GeneralLedgerController(
 
     GeneralLedger(), LanguageFactory(

@@ -4,6 +4,7 @@ import './COADao.dart';
 import 'package:winter/winter.dart';
 
 class DAOConfiguration implements Configurer {
+  @override
   Future<void> config({String? instanceName}) async {
     getIt.registerSingleton(COADao());
     getIt.registerSingleton(GeneralJournalDao());

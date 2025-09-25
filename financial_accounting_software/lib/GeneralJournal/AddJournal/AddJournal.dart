@@ -13,18 +13,18 @@ import 'package:winter/winter.dart';
 
 class AddJournal extends StatelessWidget {
   late final AddJournalController c;
-  AddJournal();
   @override
   Widget build(BuildContext context) {
     //    return LayoutBuilder(builder: (context, constraints) {
     //      return Desktop(c);
     //    });
     return Form(
+      
       key: c.journalSaveFormKey,
       child: Column(
         children: [
           //topbar
-          Container(
+          SizedBox(
             height: getIt<GlobalStyle>().topBarHeight,
             child: Row(
               spacing: 8,
@@ -35,44 +35,25 @@ class AddJournal extends StatelessWidget {
                     c.data!.closeAddJournal();
                   },
                 ),
-                Text(
-                  "Journal entry",
-                  style: Theme.of(context).textTheme.headlineLarge,
-                ),
+                Text("Journal entry", style: Theme.of(context).textTheme.headlineLarge),
                 Expanded(child: Container()),
                 ValueListenableBuilder(
                   valueListenable: c.entries,
                   builder: (context, value, child) {
                     c.generalJournal.entries = value;
                     return c.generalJournal.isBalanced()
-                        ? Text(
-                            "Balanced",
-                            style: getIt<GlobalStyle>()
-                                .successLabel(context)
-                                .copyWith(fontSize: 21),
-                          )
-                        : Text(
-                            "Unbalance",
-                            style: getIt<GlobalStyle>()
-                                .dangerLabel(context)
-                                .copyWith(fontSize: 21),
-                          );
+                        ? Text("Balanced", style: getIt<GlobalStyle>().successLabel(context).copyWith(fontSize: 21))
+                        : Text("Unbalance", style: getIt<GlobalStyle>().dangerLabel(context).copyWith(fontSize: 21));
                   },
                 ),
                 ElevatedButton(
                   child: Text("Save"),
                   onPressed: () {
                     if (!c.journalSaveFormKey.currentState!.validate()) {
-                    } else if (c.generalJournal.entries.length == 0) {
-                      showSaveErrorDialog(
-                        context,
-                        "Please add journal entries.",
-                      );
+                    } else if (c.generalJournal.entries.isEmpty) {
+                      showSaveErrorDialog(context, "Please add journal entries.");
                     } else if (!c.generalJournal.isBalanced()) {
-                      showSaveErrorDialog(
-                        context,
-                        "Your journal entry is not balance.",
-                      );
+                      showSaveErrorDialog(context, "Your journal entry is not balance.");
                     } else {
                       getIt<GeneralJournalDao>().insert(c.generalJournal);
                       c.data!.closeAddJournal();
@@ -83,18 +64,15 @@ class AddJournal extends StatelessWidget {
             ),
           ),
           //mid layout
-          Container(
+          SizedBox(
             height: getIt<GlobalStyle>().topBarHeight * 3,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
+                SizedBox(
                   width: 377,
                   child: ListTile(
-                    leading: Text(
-                      "Transaction Date : ",
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
+                    leading: Text("Transaction Date : ", style: Theme.of(context).textTheme.bodyLarge),
                     title: ValueListenableBuilder(
                       valueListenable: c.journalEntryDateTimeChangeNotifier,
                       builder: (context, value, child) => Text(
@@ -105,28 +83,16 @@ class AddJournal extends StatelessWidget {
                     trailing: IconButton(
                       icon: Icon(Icons.edit_calendar_outlined),
                       onPressed: () async {
-                        showDatePicker(
-                          context: context,
-                          initialDate: c.generalJournal.journalDate,
-                          firstDate: DateTime(0),
-                          lastDate: DateTime(100000),
-                        ).then((a) {
+                        showDatePicker(context: context, initialDate: c.generalJournal.journalDate, firstDate: DateTime(0), lastDate: DateTime(100000)).then((a) {
                           if (a != null) {
                             showTimePicker(
-                              initialTime: TimeOfDay(
-                                hour: c.generalJournal.journalDate.day,
-                                minute: c.generalJournal.journalDate.minute,
-                              ),
+                              initialTime: TimeOfDay(hour: c.generalJournal.journalDate.day, minute: c.generalJournal.journalDate.minute),
                               initialEntryMode: TimePickerEntryMode.inputOnly,
                               context: context,
                             ).then((b) {
                               if (b != null) {
-                                c.generalJournal.journalDate = a.copyWith(
-                                  hour: b.hour,
-                                  minute: b.minute,
-                                );
-                                c.journalEntryDateTimeChangeNotifier.value =
-                                    !c.journalEntryDateTimeChangeNotifier.value;
+                                c.generalJournal.journalDate = a.copyWith(hour: b.hour, minute: b.minute);
+                                c.journalEntryDateTimeChangeNotifier.value = !c.journalEntryDateTimeChangeNotifier.value;
                               }
                             });
                           }
@@ -140,9 +106,7 @@ class AddJournal extends StatelessWidget {
                   child: TextFormField(
                     maxLines: 3,
                     style: Theme.of(context).textTheme.bodyLarge,
-                    decoration: InputDecoration(
-                      hintText: "Journal entry description.",
-                    ),
+                    decoration: InputDecoration(hintText: "Journal entry description."),
                     onChanged: (a) {
                       c.generalJournal.description = a;
                     },
@@ -154,7 +118,7 @@ class AddJournal extends StatelessWidget {
                     },
                   ),
                 ),
-                Container(
+                SizedBox(
                   width: 144,
                   child: ElevatedButton(
                     child: Text("Add row"),
@@ -190,12 +154,8 @@ class AddJournal extends StatelessWidget {
                         return DataRow(
                           cells: [
                             DataCell(Text(a.affectedAccount.account)),
-                            DataCell(
-                              Text(a.isDebit ? a.amount.toString() : "0"),
-                            ),
-                            DataCell(
-                              Text(!a.isDebit ? a.amount.toString() : "0"),
-                            ),
+                            DataCell(Text(a.isDebit ? a.amount.toString() : "0")),
+                            DataCell(Text(!a.isDebit ? a.amount.toString() : "0")),
                             DataCell(
                               IconButton(
                                 icon: Icon(Icons.delete),
@@ -225,12 +185,7 @@ class AddJournal extends StatelessWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text(
-            errrMessage,
-            style: getIt<GlobalStyle>()
-                .dangerLabel(context)
-                .copyWith(fontSize: 18),
-          ),
+          title: Text(errrMessage, style: getIt<GlobalStyle>().dangerLabel(context).copyWith(fontSize: 18)),
           actions: [
             ElevatedButton(
               child: Text("Ok"),
@@ -261,9 +216,7 @@ class AddJournal extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       TextFormField(
-                        decoration: InputDecoration(
-                          labelText: "Search with id (or) name",
-                        ),
+                        decoration: InputDecoration(labelText: "Search with id (or) name"),
                         onChanged: (val) {
                           getIt<COADao>().search(val).then((a) {
                             c.chart_of_account_notifier.value = a;
@@ -279,10 +232,7 @@ class AddJournal extends StatelessWidget {
                             return SingleChildScrollView(
                               child: DataTable(
                                 columns: [
-                                  DataColumn(
-                                    label: Text("Code"),
-                                    numeric: true,
-                                  ),
+                                  DataColumn(label: Text("Code"), numeric: true),
                                   DataColumn(label: Text("Account name")),
                                   DataColumn(label: Text("")),
                                 ],
@@ -296,14 +246,8 @@ class AddJournal extends StatelessWidget {
                                             IconButton(
                                               icon: Icon(Icons.arrow_right),
                                               onPressed: () {
-                                                c.addEntry = JournalEntry(
-                                                  0,
-                                                  e,
-                                                  true,
-                                                  0,
-                                                );
-                                                c.currentAddDialogState.value =
-                                                    1;
+                                                c.addEntry = JournalEntry(0, e, true, 0);
+                                                c.currentAddDialogState.value = 1;
                                               },
                                             ),
                                           ),
@@ -339,10 +283,7 @@ class AddJournal extends StatelessWidget {
                         ValueListenableBuilder(
                           valueListenable: c.addJournalErrorNotifier,
                           builder: (context, value, child) {
-                            return Text(
-                              value,
-                              style: getIt<GlobalStyle>().dangerLabel(context),
-                            );
+                            return Text(value, style: getIt<GlobalStyle>().dangerLabel(context));
                           },
                         ),
 
@@ -387,17 +328,9 @@ class AddJournal extends StatelessWidget {
                         ),
                         SizedBox(
                           child: TextFormField(
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                RegExp(r'[0-9]'),
-                              ),
-                            ],
+                            inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))],
                             keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              labelText: "Amount",
-                              hintText:
-                                  "Assets need a ${c.generalJournal.findBalanceValue()} adjustment to balance",
-                            ),
+                            decoration: InputDecoration(labelText: "Amount", hintText: "Assets need a ${c.generalJournal.findBalanceValue()} adjustment to balance"),
                             onChanged: (String a) {
                               c.addEntry!.amount = double.tryParse(a) ?? 0;
                             },
@@ -419,8 +352,7 @@ class AddJournal extends StatelessWidget {
                           Navigator.of(context).pop(this);
                           c.entries.value = [...c.entries.value, c.addEntry!];
                         } else {
-                          c.addJournalErrorNotifier.value =
-                              "Please fill the amount";
+                          c.addJournalErrorNotifier.value = "Please fill the amount";
                         }
                       },
                       child: const Text('Ok'),

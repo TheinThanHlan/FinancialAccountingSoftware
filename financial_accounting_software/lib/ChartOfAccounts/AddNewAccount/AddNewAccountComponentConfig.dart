@@ -7,20 +7,11 @@ import 'package:winter/winter.dart';
 import 'languages/LanguageFactory.dart';
 
 class AddNewAccountComponentConfig implements Configurer {
+  @override
   Future<void> config({String? instanceName}) async {
-    getIt.registerFactoryParam<
-      AddNewAccountController,
-      AddNewAccountModel,
-      Null
-    >(
+    getIt.registerFactoryParam<AddNewAccountController, AddNewAccountModel, Null>(
       instanceName: instanceName,
-      (p1, p2) => AddNewAccountController(
-        AddNewAccount(),
-        LanguageFactory(
-          getIt<ValueNotifier<String>>(instanceName: "currentLanguage"),
-        ),
-        data: p1,
-      ),
+      (p1, p2) => AddNewAccountController(AddNewAccount(), LanguageFactory(getIt<ValueNotifier<String>>(instanceName: "currentLanguage")), data: p1),
     );
     debugPrint("\t~>\tAddNewAccount injected;");
   }

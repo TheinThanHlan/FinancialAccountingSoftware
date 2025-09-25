@@ -7,6 +7,7 @@ import 'package:winter/winter.dart';
 import 'languages/LanguageFactory.dart';
 
 class AddJournalComponentConfig implements Configurer {
+  @override
   Future<void> config({String? instanceName}) async {
     getIt.registerFactoryParam<AddJournalController, AddJournalModel, Null>(
       instanceName: instanceName,

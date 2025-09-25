@@ -13,12 +13,13 @@ class GeneralJournalListController implements WinterController {
     DateTime.now().copyWith(hour: 0, minute: 0, second: 0),
   );
   GeneralJournalListController(this.view, this.languageFactory, {this.data}) {
-    this.view.c = this;
+    view.c = this;
   }
   String greet = "Hello from GeneralJournalListPage";
   void reset() {}
 
+  @override
   Widget getView() {
-    return this.view;
+    return view;
   }
 }

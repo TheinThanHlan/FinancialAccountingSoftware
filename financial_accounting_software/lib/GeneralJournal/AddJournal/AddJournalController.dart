@@ -32,8 +32,8 @@ class AddJournalController implements WinterController {
   ValueNotifier<String> addJournalErrorNotifier = ValueNotifier("");
   //final module = getIt<GetIt>(instanceName:);
   AddJournalController(this.view, this.languageFactory, {this.data}) {
-    this.view.c = this;
-    this.generalJournal = GeneralJournal(
+    view.c = this;
+    generalJournal = GeneralJournal(
       0,
       "",
       createdDate.value,
@@ -57,7 +57,8 @@ class AddJournalController implements WinterController {
 
   void reset() {}
 
+  @override
   Widget getView() {
-    return this.view;
+    return view;
   }
 }

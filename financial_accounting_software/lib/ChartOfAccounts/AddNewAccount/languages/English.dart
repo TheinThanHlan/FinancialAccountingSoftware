@@ -1,6 +1,7 @@
 import 'package:winter/winter.dart';
 
 class English implements Language {
+  @override
   List<String> get content => const [
     "Add new account", //0
     "Account name", //1

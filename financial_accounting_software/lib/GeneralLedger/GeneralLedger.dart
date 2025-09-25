@@ -4,7 +4,6 @@ import 'package:winter/winter.dart';
 
 class GeneralLedger extends StatelessWidget {
   late final GeneralLedgerController c;
-  GeneralLedger();
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(

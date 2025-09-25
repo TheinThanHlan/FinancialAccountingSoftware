@@ -1,13 +1,12 @@
 import 'package:financial_accounting_software/GlobalStyle.dart';
 import 'package:financial_accounting_software/data/dao/COADao.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import './COAListController.dart';
 import 'package:winter/winter.dart';
 
 class COAList extends StatelessWidget {
   late final COAListController c;
-  COAList() {}
+  COAList({super.key});
   ValueNotifier<int> x = ValueNotifier(1);
   @override
   Widget build(BuildContext context) {
@@ -20,10 +19,7 @@ class COAList extends StatelessWidget {
             direction: Axis.horizontal,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                "Chart of accounts",
-                style: Theme.of(context).textTheme.headlineLarge,
-              ),
+              Text("Chart of accounts", style: Theme.of(context).textTheme.headlineLarge),
               SizedBox(
                 width: 233,
                 child: ListTile(
@@ -47,42 +43,15 @@ class COAList extends StatelessWidget {
                   scrollDirection: Axis.vertical,
                   child: DataTable(
                     columns: [
-                      DataColumn(
-                        label: Text(
-                          c.languageFactory.getLang(0),
-                          style: TextTheme.of(context).titleMedium,
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          c.languageFactory.getLang(1),
-                          style: TextTheme.of(context).titleMedium,
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          c.languageFactory.getLang(2),
-                          style: TextTheme.of(context).titleMedium,
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          c.languageFactory.getLang(3),
-                          style: TextTheme.of(context).titleMedium,
-                        ),
-                      ),
+                      DataColumn(label: Text(c.languageFactory.getLang(0), style: TextTheme.of(context).titleMedium)),
+                      DataColumn(label: Text(c.languageFactory.getLang(1), style: TextTheme.of(context).titleMedium)),
+                      DataColumn(label: Text(c.languageFactory.getLang(2), style: TextTheme.of(context).titleMedium)),
+                      DataColumn(label: Text(c.languageFactory.getLang(3), style: TextTheme.of(context).titleMedium)),
                     ],
                     rows: [
                       ...snapshot.data!.map(
                         (e) => DataRow(
-                          cells: [
-                            DataCell(Text(e.code.toString())),
-                            DataCell(Text(e.account)),
-                            DataCell(
-                              Text(e.isIncreaseInDebit ? "Debit" : "Credit"),
-                            ),
-                            DataCell(Text(e.isHidden.toString())),
-                          ],
+                          cells: [DataCell(Text(e.code.toString())), DataCell(Text(e.account)), DataCell(Text(e.isIncreaseInDebit ? "Debit" : "Credit")), DataCell(Text(e.isHidden.toString()))],
                         ),
                       ),
                     ],
@@ -91,16 +60,12 @@ class COAList extends StatelessWidget {
               }
               return Container(
                 alignment: Alignment.center,
-                child: SizedBox(
-                  width: 34,
-                  height: 34,
-                  child: CircularProgressIndicator(),
-                ),
+                child: SizedBox(width: 34, height: 34, child: CircularProgressIndicator()),
               );
             },
           ),
         ),
-        Container(height: 55, color: Colors.blue),
+        //     Container(height: 55, color: Colors.blue),
       ],
     );
   }

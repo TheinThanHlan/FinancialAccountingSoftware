@@ -14,12 +14,13 @@ class COAListController implements WinterController {
   //final module = getIt<GetIt>(instanceName:);
 
   COAListController(this.view, this.languageFactory, {this.data}) {
-    this.view.c = this;
+    view.c = this;
   }
   String greet = "Hello from COAListPage";
   void reset() {}
 
+  @override
   Widget getView() {
-    return this.view;
+    return view;
   }
 }
