@@ -1,3 +1,1 @@
-
-class GeneralLedgerModel{
-}
+class GeneralLedgerModel {}

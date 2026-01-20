@@ -1,4 +1,5 @@
 import 'package:financial_accounting_software/GlobalStyle.dart';
+import 'package:financial_accounting_software/data/dao/AccountTypeDao.dart';
 import 'package:financial_accounting_software/data/dao/COADao.dart';
 import 'package:financial_accounting_software/data/model/COA.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,10 @@ class AddNewAccount extends StatelessWidget {
                   },
                 ),
               ),
-              Text(c.languageFactory.getLang(0), style: Theme.of(context).textTheme.headlineLarge),
+              Text(
+                c.languageFactory.getLang(0),
+                style: Theme.of(context).textTheme.headlineLarge,
+              ),
             ],
           ),
         ),
@@ -41,7 +45,9 @@ class AddNewAccount extends StatelessWidget {
               spacing: 34,
               children: [
                 TextFormField(
-                  decoration: InputDecoration(label: Text(c.languageFactory.getLang(1))),
+                  decoration: InputDecoration(
+                    label: Text(c.languageFactory.getLang(1)),
+                  ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return c.languageFactory.getLang(2);
@@ -54,9 +60,11 @@ class AddNewAccount extends StatelessWidget {
                 ),
                 TextFormField(
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  decoration: InputDecoration(label: Text(c.languageFactory.getLang(3))),
+                  decoration: InputDecoration(
+                    label: Text(c.languageFactory.getLang(3)),
+                  ),
                   onChanged: (a) {
-                    c.code = int.parse(a);
+                    c.code = a;
                   },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -71,40 +79,64 @@ class AddNewAccount extends StatelessWidget {
                     return null;
                   },
                 ),
-                ValueListenableBuilder(
-                  valueListenable: c.debitOrCredit,
-                  builder: (context, value, child) {
-                    return Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ...c.debitAndCredit.entries.map((a) {
-                          return SizedBox(
-                            width: 225,
-                            height: 55,
-                            child: ListTile(
-                              title: Text(a.key),
-                              leading: Radio<String>(
-                                value: a.key,
-                                groupValue: value,
-                                onChanged: (v) {
-                                  c.debitOrCredit.value = a.key;
-                                },
-                              ),
-                              onTap: () {
-                                c.debitOrCredit.value = a.key;
-                              },
-                            ),
-                          );
-                        }),
-                      ],
-                    );
-                  },
+                Container(
+                  alignment: .centerLeft,
+                  child: FutureBuilder(
+                    future: getIt<AccountTypeDao>().getAllAccountTypes(),
+                    builder: (context, snapshot) {
+                      if (snapshot.data != null && snapshot.data!.isNotEmpty) {
+                        c.accountType = ValueNotifier(snapshot.data!.first);
+                        return ValueListenableBuilder(
+                          valueListenable: c.accountType,
+                          builder: (context, value, child) => DropdownButton(
+                            value: c.accountType.value,
+                            items: snapshot.data!
+                                .map(
+                                  (a) => DropdownMenuItem(
+                                    value: a,
+                                    child: Text(a.name),
+                                  ),
+                                )
+                                .toList(),
+                            onChanged: (a) {
+                              c.accountType.value = a!;
+                            },
+                          ),
+                        );
+                      }
+                      return Container();
+                    },
+                  ),
                 ),
-                ElevatedButton(
-                  child: Text(c.languageFactory.getLang(8)),
-                  onPressed: () {
+                OutlinedButton(
+                  child: Text(
+                    c.languageFactory.getLang(9),
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  onPressed: () async {
                     if (c.formKey.currentState!.validate()) {
-                      getIt<COADao>().add(COA(0, c.code, c.account, c.debitAndCredit[c.debitOrCredit] ?? false, false));
+                      if (await c.createNewAccount()) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              "Success",
+
+                              style: Theme.of(context).textTheme.headlineLarge!
+                                  .copyWith(color: Colors.green),
+                            ),
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              "Account already exist",
+                              style: Theme.of(context).textTheme.headlineLarge!
+                                  .copyWith(color: Colors.red),
+                            ),
+                          ),
+                        );
+                      }
                     }
                   },
                 ),

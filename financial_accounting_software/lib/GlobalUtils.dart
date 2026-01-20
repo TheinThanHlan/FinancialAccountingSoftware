@@ -1,0 +1,3 @@
+class GlobalUtils {
+  void BackupDatabase() {}
+}

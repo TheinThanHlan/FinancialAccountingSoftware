@@ -11,7 +11,9 @@ class Home extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: ValueListenableBuilder(
-        valueListenable: getIt<ValueNotifier<String>>(instanceName: "currentLanguage"),
+        valueListenable: getIt<ValueNotifier<String>>(
+          instanceName: "currentLanguage",
+        ),
         builder: (context, widget, child) {
           return Scaffold(
             drawer: Drawer(
@@ -23,7 +25,12 @@ class Home extends StatelessWidget {
                   children: [
                     SizedBox(
                       height: 89,
-                      child: Center(child: Text(c.languageFactory.getLang(0), style: Theme.of(context).textTheme.displaySmall)),
+                      child: Center(
+                        child: Text(
+                          c.languageFactory.getLang(0),
+                          style: Theme.of(context).textTheme.displaySmall,
+                        ),
+                      ),
                     ),
                     ...c.pages.entries.map((a) {
                       return ValueListenableBuilder(
@@ -43,16 +50,25 @@ class Home extends StatelessWidget {
                       child: Align(
                         alignment: Alignment.bottomCenter,
                         child: ValueListenableBuilder(
-                          valueListenable: getIt<ValueNotifier<String>>(instanceName: "currentLanguage"),
+                          valueListenable: getIt<ValueNotifier<String>>(
+                            instanceName: "currentLanguage",
+                          ),
                           builder: (context, value, child) {
                             return DropdownButton(
                               value: value,
                               onChanged: (a) {
-                                getIt<ValueNotifier<String>>(instanceName: "currentLanguage").value = a!;
+                                getIt<ValueNotifier<String>>(
+                                  instanceName: "currentLanguage",
+                                ).value = a!;
                               },
-                              items: c.supportedLanguages.map<DropdownMenuItem<String>>((x) {
-                                return DropdownMenuItem(value: x.code, child: Text(x.displayName));
-                              }).toList(),
+                              items: c.supportedLanguages
+                                  .map<DropdownMenuItem<String>>((x) {
+                                    return DropdownMenuItem(
+                                      value: x.code,
+                                      child: Text(x.displayName),
+                                    );
+                                  })
+                                  .toList(),
                             );
                           },
                         ),
@@ -62,9 +78,9 @@ class Home extends StatelessWidget {
                 ),
               ),
             ),
-            appBar: AppBar(),
+            appBar: AppBar(title: Text("Financial Accounting Software")),
             body: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 13),
+              padding: EdgeInsets.symmetric(horizontal: 13, vertical: 10),
               child: ValueListenableBuilder(
                 valueListenable: c.currentPage,
                 builder: (context, widget, child) {

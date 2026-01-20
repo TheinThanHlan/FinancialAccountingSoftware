@@ -16,16 +16,16 @@ bricks:
     git:
       url: https://github.com/TheinThanHlan/winter.git
       path: bricks/component
-      ref: v1.1
+      ref: master
 
   data:
     git:
       url: https://github.com/TheinThanHlan/winter.git
       path: bricks/data
-      ref: v1.1
+      ref: master
 
   init:
     git:
       url: https://github.com/TheinThanHlan/winter.git
       path: bricks/init
-      ref: v1.1
+      ref: master

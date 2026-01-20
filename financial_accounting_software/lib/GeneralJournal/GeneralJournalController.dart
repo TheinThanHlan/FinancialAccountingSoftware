@@ -1,6 +1,7 @@
 import 'package:financial_accounting_software/GeneralJournal/AddJournal/all.dart';
 import 'package:financial_accounting_software/GeneralJournal/GeneralJournalList/all.dart';
-import 'package:financial_accounting_software/GeneralJournal/JournalDetails/all.dart';
+import 'package:financial_accounting_software/JournalDetails/JournalDetailsModel.dart';
+import 'package:financial_accounting_software/JournalDetails/all.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

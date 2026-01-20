@@ -9,15 +9,25 @@ class GeneralJournal {
   GeneralJournal(this.id, this.description, this.journalDate, this.entries);
 
   double findBalanceValue() {
-    double tmp = 0;
+    double tmpa = 0;
+    double tmpb = 0;
     for (var a in entries) {
-      if (a.isDebit == a.affectedAccount.isIncreaseInDebit) {
-        tmp += a.amount;
+      if (a.affectedAccount.accountType.isIncreaseInDebit) {
+        if (a.affectedAccount.accountType.isIncreaseInDebit == a.isDebit) {
+          tmpa += a.amount;
+        } else {
+          tmpa -= a.amount;
+        }
       } else {
-        tmp -= a.amount;
+        if (!a.affectedAccount.accountType.isIncreaseInDebit == !a.isDebit) {
+          tmpb += a.amount;
+        } else {
+          tmpb -= a.amount;
+        }
       }
     }
-    return tmp;
+
+    return tmpa - tmpb;
   }
 
   bool isBalanced() {

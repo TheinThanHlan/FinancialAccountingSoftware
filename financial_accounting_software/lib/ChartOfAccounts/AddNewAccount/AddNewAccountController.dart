@@ -1,3 +1,7 @@
+import 'package:financial_accounting_software/data/dao/COADao.dart';
+import 'package:financial_accounting_software/data/model/AccountType.dart';
+import 'package:financial_accounting_software/data/model/COA.dart';
+
 import 'AddNewAccountModel.dart';
 import 'AddNewAccount.dart';
 import 'languages/LanguageFactory.dart';
@@ -8,17 +12,14 @@ class AddNewAccountController implements WinterController {
   late final AddNewAccountModel? data;
   late final AddNewAccount view;
   late final LanguageFactory languageFactory;
-  late final Map<String, bool> debitAndCredit;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  late final ValueNotifier<String> debitOrCredit;
+  late ValueNotifier<AccountType> accountType;
   String account = "";
-  int code = 0;
+  String code = "";
 
   //final module = getIt<GetIt>(instanceName:);
   AddNewAccountController(this.view, this.languageFactory, {this.data}) {
     view.c = this;
-    debitAndCredit = {languageFactory.getLang(7): true, languageFactory.getLang(8): false};
-    debitOrCredit = ValueNotifier<String>(debitAndCredit.keys.first);
   }
   String greet = "Hello from AddNewAccountPage";
   void reset() {}
@@ -26,5 +27,14 @@ class AddNewAccountController implements WinterController {
   @override
   Widget getView() {
     return view;
+  }
+
+  Future<bool> createNewAccount() async {
+    try {
+      await getIt<COADao>().add(COA(0, code, account, accountType.value));
+      return true;
+    } on DatabaseException catch (e) {
+      return false;
+    }
   }
 }

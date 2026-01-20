@@ -33,13 +33,8 @@ class AddJournalController implements WinterController {
   //final module = getIt<GetIt>(instanceName:);
   AddJournalController(this.view, this.languageFactory, {this.data}) {
     view.c = this;
-    generalJournal = GeneralJournal(
-      0,
-      "",
-      createdDate.value,
-      entries.value,
-    );
-    getIt<COADao>().getAll().then((a) {
+    generalJournal = GeneralJournal(0, "", createdDate.value, entries.value);
+    getIt<COADao>().search("").then((a) {
       chart_of_account_notifier = ValueNotifier(a);
     });
   }
@@ -47,7 +42,7 @@ class AddJournalController implements WinterController {
   String greet = "Hello from AddJournalPage";
 
   resetAddDialogData() async {
-    getIt<COADao>().getAll().then((a) {
+    getIt<COADao>().search("").then((a) {
       chart_of_account_notifier.value = a;
     });
     currentAddDialogState.value = 0;
