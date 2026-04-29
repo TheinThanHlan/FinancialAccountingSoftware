@@ -1,4 +1,4 @@
-import 'package:financial_accounting_software/ChartOfAccounts/all.dart';
+import 'package:financial_accounting_software/ChartOfAccount/all.dart';
 import 'package:financial_accounting_software/GeneralJournal/GeneralJournalController.dart';
 import 'package:financial_accounting_software/GeneralLedger/all.dart';
 import 'package:financial_accounting_software/Home/ui_models/SupportedLanguage.dart';
@@ -17,9 +17,12 @@ class HomeController {
   final Map<String, Widget> pages = {
     "General Journal": getIt<GeneralJournalController>().view,
     "General Ledger": getIt<GeneralLedgerController>().view,
-    "Chart Of Accounts": getIt<ChartOfAccountsController>().view,
+    "Chart Of Accounts": getIt<ChartOfAccountController>().getView(),
   };
-  List<SupportedLanguage> supportedLanguages = [SupportedLanguage("mm", "Myanmar"), SupportedLanguage("en", "English")];
+  List<SupportedLanguage> supportedLanguages = [
+    SupportedLanguage("mm", "Myanmar"),
+    SupportedLanguage("en", "English"),
+  ];
   //final module = getIt<GetIt>(instanceName:);
   HomeController(this.view, this.languageFactory, {this.data}) {
     view.c = this;

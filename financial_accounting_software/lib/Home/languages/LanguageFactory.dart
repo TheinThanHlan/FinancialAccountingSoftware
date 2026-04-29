@@ -1,3 +1,5 @@
+import 'package:financial_accounting_software/Language.dart';
+
 import "English.dart";
 import "Myanmar.dart";
 import 'package:winter/winter.dart';
@@ -9,6 +11,7 @@ class LanguageFactory {
   LanguageFactory(this._currentLanguage);
 
   String getLang(int index) {
-    return (_languages[_currentLanguage.value] ?? _languages["en"])!.content[index];
+    return (_languages[_currentLanguage.value] ?? _languages["en"])!
+        .content[index];
   }
 }

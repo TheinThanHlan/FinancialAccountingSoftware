@@ -9,15 +9,14 @@ class JournalDetailsController implements WinterController {
   late final JournalDetails view;
   late final LanguageFactory languageFactory;
   //final module = getIt<GetIt>(instanceName:);
-  JournalDetailsController(this.view,this.languageFactory,{this.data}){
-   view.c=this;
+  JournalDetailsController(this.view, this.languageFactory, {this.data}) {
+    view.c = this;
   }
   String greet = "Hello from JournalDetailsPage";
-  void reset(){}
+  void reset() {}
 
   @override
-  Widget getView(){
+  WinterView getView() {
     return view;
   }
-
 }

@@ -1,3 +1,5 @@
+import 'package:financial_accounting_software/Language.dart';
+
 import "English.dart";
 import 'package:winter/winter.dart';
 import 'package:flutter/foundation.dart';

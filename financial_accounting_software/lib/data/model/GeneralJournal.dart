@@ -8,6 +8,8 @@ class GeneralJournal {
   DateTime journalDate;
   GeneralJournal(this.id, this.description, this.journalDate, this.entries);
 
+  static final _emptyObj = GeneralJournal(0, "", DateTime(0), []);
+
   double findBalanceValue() {
     double tmpa = 0;
     double tmpb = 0;
@@ -32,6 +34,18 @@ class GeneralJournal {
 
   bool isBalanced() {
     return findBalanceValue() == 0;
+  }
+
+  factory GeneralJournal.empty() {
+    return _emptyObj;
+  }
+  factory GeneralJournal.fromJson(Map<String, Object?> jo) {
+    return GeneralJournal(
+      jo["id"] as int,
+      jo["description"] as String,
+      DateTime.fromMillisecondsSinceEpoch(jo["journalDate"] as int),
+      [],
+    );
   }
 
   //factory GeneralJournal.fromJson(Map<String, dynamic> json) {

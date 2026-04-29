@@ -1,9 +1,10 @@
+import 'package:financial_accounting_software/Language.dart';
 import 'package:winter/winter.dart';
 
 class English implements Language {
   @override
   List<String> get content => const [
-    "Add new account", //0
+    "Create New Account", //0
     "Account name", //1
     "Please enter the account name", //2
     "Code", //3

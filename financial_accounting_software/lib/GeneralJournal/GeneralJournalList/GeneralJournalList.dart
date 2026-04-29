@@ -1,10 +1,12 @@
 import 'package:financial_accounting_software/GlobalStyle.dart';
 import 'package:financial_accounting_software/data/dao/GeneralJournalDao.dart';
 import 'package:flutter/material.dart';
+import 'package:winter/components/TableWithStickyHeader/TableWithStickyHeaderController.dart';
+import 'package:winter/components/TableWithStickyHeader/TableWithStickyHeaderModel.dart';
 import './GeneralJournalListController.dart';
 import 'package:winter/winter.dart';
 
-class GeneralJournalList extends StatelessWidget {
+class GeneralJournalList extends StatelessWidget implements WinterView {
   late final GeneralJournalListController c;
   @override
   Widget build(BuildContext context) {
@@ -61,9 +63,38 @@ class GeneralJournalList extends StatelessWidget {
             valueListenable: c.targetDate,
             builder: (context, value, child) => FutureBuilder(
               future: getIt<GeneralJournalDao>().filterWithDate(value),
-              builder: (context, snapshot) => SingleChildScrollView(
-                child: SizedBox(
-                  width: double.maxFinite,
+              builder: (context, snapshot) =>
+                  getIt<TableWithStickyHeaderController>(
+                    param1: TableWithStickyHeaderModel(
+                      [
+                        TableColumn1("Time"),
+                        TableColumn1("Description"),
+                        TableColumn1(""),
+                      ],
+                      [
+                        if (snapshot.data != null)
+                          ...snapshot.data!.map(
+                            (a) => TableRow1([
+                              TableCell1(
+                                Text(
+                                  "${a.journalDate.hour}:${a.journalDate.minute}:${a.journalDate.second}",
+                                ),
+                              ),
+                              TableCell1(Text(a.description)),
+                              TableCell1(
+                                ElevatedButton(
+                                  onPressed: () {
+                                    c.data!.openJournalDetails(context, a.id);
+                                  },
+                                  child: Text("Details"),
+                                ),
+                              ),
+                            ]),
+                          ),
+                      ],
+                    ),
+                  ).getView(),
+              /*
                   child: DataTable(
                     columns: [
                       DataColumn(label: Text("Time")),
@@ -93,9 +124,7 @@ class GeneralJournalList extends StatelessWidget {
                           ),
                         ),
                     ],
-                  ),
-                ),
-              ),
+                  ),*/
             ),
           ),
         ),

@@ -6,7 +6,7 @@ class COA {
   String account;
   AccountType accountType;
 
-  static final COA _emptyCOA = COA(0, "", "", AccountType(0, "", "", false));
+  static final COA _emptyCOA = COA(0, "", "", AccountType(0, "", 0, false));
 
   COA(this.id, this.code, this.account, this.accountType) {
     this.code = check_0_from_code(this.code);
@@ -21,7 +21,7 @@ class COA {
       json["id"] ?? 0,
       json["code"] ?? 0,
       json["account"],
-      AccountType(json["accountTypeId"], "", "", false),
+      AccountType(json["accountTypeId"], "", 0, false),
     );
   }
 

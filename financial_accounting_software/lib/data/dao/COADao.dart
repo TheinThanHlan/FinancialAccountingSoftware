@@ -7,13 +7,16 @@ class COADao {
     instanceName: "accounting_db",
   ).getDb();
   Future<List<COA>> getAll() async {
-    List<Map<String, dynamic>> tmp = await _db.query("COA");
+    List<Map<String, dynamic>> tmp = await _db.query(
+      "COA",
+      orderBy: "AccountTypeId,code",
+    );
     return tmp.map((a) {
       var b = COA(
         a["id"] ?? 0,
         a["code"],
         a["account"] ?? "",
-        AccountType(a["accountTypeId"], "", "", false),
+        AccountType(a["accountTypeId"], "", 0, false),
       );
 
       return b;
@@ -28,9 +31,17 @@ class COADao {
     });
   }
 
+  Future<void> delete(int id) async {
+    try {
+      await _db.delete("COA", where: "id=$id");
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   Future<List<COA>> search(String search) async {
     List<Map<String, dynamic>> tmp = await _db.rawQuery(
-      "Select * from COA inner join AccountType on COA.accountTypeId=AccountType.id  where COA.code like '%$search%' or COA.account like '%$search%' order by COA.code ",
+      "Select COA.id,code,account,accountTypeId,name,start_with,isIncreaseInDebit from COA inner join AccountType on COA.accountTypeId=AccountType.id  where COA.code like '%$search%' or COA.account like '%$search%' order by COA.accountTypeId ",
     );
     return tmp.map((a) {
       var b = COA(
@@ -40,7 +51,7 @@ class COADao {
         AccountType(
           a["accountTypeId"],
           a["name"],
-          "start_at",
+          a["start_with"] as int,
           a["isIncreaseInDebit"] == 1 ? true : false,
         ),
       );

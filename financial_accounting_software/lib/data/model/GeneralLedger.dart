@@ -26,7 +26,7 @@ class GeneralLedger {
       GeneralJournal(0, "Opening Balance", startingDate, [
         JournalEntry(
           0,
-          COA(0, "", "", AccountType(0, "", "", true)),
+          COA(0, "", "", AccountType(0, "", 0, true)),
           true,
           tmpBalance,
         ),

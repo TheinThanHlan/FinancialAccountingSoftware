@@ -19,7 +19,7 @@ class GeneralJournalListController implements WinterController {
   void reset() {}
 
   @override
-  Widget getView() {
+  WinterView getView() {
     return view;
   }
 }

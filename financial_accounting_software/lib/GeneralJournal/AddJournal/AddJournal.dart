@@ -11,7 +11,7 @@ import 'package:flutter/services.dart';
 import './AddJournalController.dart';
 import 'package:winter/winter.dart';
 
-class AddJournal extends StatelessWidget {
+class AddJournal extends StatelessWidget implements WinterView {
   late final AddJournalController c;
   @override
   Widget build(BuildContext context) {

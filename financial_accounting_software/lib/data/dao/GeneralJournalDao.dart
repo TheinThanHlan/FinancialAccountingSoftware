@@ -1,3 +1,5 @@
+import 'package:financial_accounting_software/data/model/JournalEntry.dart';
+
 import '../model/GeneralJournal.dart';
 import 'package:winter/winter.dart';
 
@@ -18,6 +20,21 @@ class GeneralJournalDao {
         "generalJournalId": id,
       });
     }
+  }
+
+  Future<GeneralJournal> getWithId(int id) async {
+    var generalJournal = GeneralJournal.fromJson(
+      (await _db.query("GeneralJournal", where: "id=$id"))[0],
+    );
+    generalJournal.entries =
+        (await _db.rawQuery("""
+        select je.id,je.affectedAccountId,je.isDebit,je.amount,coa.code,coa.account from JournalEntry je inner join COA  on COA.id=je.affectedAccountId
+        where je.generalJournalId=$id 
+        """)).map((a) {
+          return JournalEntry.fromJson(a);
+        }).toList();
+
+    return generalJournal;
   }
 
   Future<List<GeneralJournal>> filterWithDate(DateTime targetDateTime) async {

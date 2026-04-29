@@ -1,3 +1,4 @@
+import 'package:financial_accounting_software/data/model/AccountType.dart';
 import 'package:financial_accounting_software/data/model/COA.dart';
 
 class JournalEntry {
@@ -10,8 +11,13 @@ class JournalEntry {
   factory JournalEntry.fromJson(Map<String, dynamic> json) {
     return JournalEntry(
       json["id"],
-      COA.empty(),
-      json["isDebit"],
+      COA(
+        json["affectedAccountId"],
+        json["code"],
+        json["account"],
+        AccountType.empty(),
+      ),
+      json["isDebit"] == 1 ? true : false,
       json["amount"],
     );
   }

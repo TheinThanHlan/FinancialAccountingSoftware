@@ -1,4 +1,3 @@
-import 'package:financial_accounting_software/ChartOfAccounts/COAList/all.dart';
 import 'package:financial_accounting_software/data/dao/COADao.dart';
 import 'package:financial_accounting_software/data/model/AccountType.dart';
 import 'package:financial_accounting_software/data/model/COA.dart';

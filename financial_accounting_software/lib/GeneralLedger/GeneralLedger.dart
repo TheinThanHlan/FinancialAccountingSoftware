@@ -1,8 +1,8 @@
-import 'package:financial_accounting_software/GlobalUtils.dart';
 import 'package:financial_accounting_software/JournalDetails/all.dart';
 import 'package:financial_accounting_software/data/dao/GeneralLedgerDao.dart';
 import 'package:financial_accounting_software/data/model/COA.dart';
 import 'package:flutter/material.dart';
+import 'package:winter/components/TableWithStickyHeader/all.dart';
 import './GeneralLedgerController.dart';
 import 'package:winter/winter.dart';
 
@@ -172,6 +172,7 @@ class GeneralLedger extends StatelessWidget {
                         valueListenable: c.startingDateNotifier,
                         builder: (context, _, _) {
                           return Column(
+                            spacing: 13,
                             children: [
                               //starting date button
                               Container(
@@ -197,88 +198,6 @@ class GeneralLedger extends StatelessWidget {
                                 ),
                               ),
 
-                              //table columns
-                              Container(
-                                padding: .symmetric(vertical: 13),
-                                decoration: BoxDecoration(
-                                  border: .fromLTRB(
-                                    bottom: BorderSide(color: Colors.black12),
-                                  ),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      width: 100,
-                                      child: Text(
-                                        "Date",
-                                        textAlign: .left,
-                                        style: Theme.of(
-                                          context,
-                                        ).textTheme.titleLarge,
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 100,
-                                      child: Text(
-                                        "Time",
-                                        textAlign: .left,
-                                        style: Theme.of(
-                                          context,
-                                        ).textTheme.titleLarge,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        "Description",
-                                        textAlign: .left,
-                                        style: Theme.of(
-                                          context,
-                                        ).textTheme.titleLarge,
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 200,
-                                      child: Text(
-                                        "Debit",
-                                        textAlign: .right,
-                                        style: Theme.of(
-                                          context,
-                                        ).textTheme.titleLarge,
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 200,
-                                      child: Text(
-                                        "Credit",
-                                        textAlign: .right,
-                                        style: Theme.of(
-                                          context,
-                                        ).textTheme.titleLarge,
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 200,
-                                      child: Text(
-                                        "Balance",
-                                        textAlign: .right,
-                                        style: Theme.of(
-                                          context,
-                                        ).textTheme.titleLarge,
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 200,
-                                      child: Text(
-                                        "Details",
-                                        textAlign: .center,
-                                        style: Theme.of(
-                                          context,
-                                        ).textTheme.titleLarge,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
                               //Table
                               Expanded(
                                 child: ValueListenableBuilder(
@@ -294,151 +213,114 @@ class GeneralLedger extends StatelessWidget {
                                         return Container();
                                       }
 
-                                      return SingleChildScrollView(
-                                        child: Table(
-                                          defaultVerticalAlignment: .middle,
-                                          columnWidths: {
-                                            0: FixedColumnWidth(100),
-                                            1: FixedColumnWidth(100),
-                                            2: FlexColumnWidth(1),
-                                            3: FixedColumnWidth(200),
-                                            4: FixedColumnWidth(200),
-                                            5: FixedColumnWidth(200),
-                                            6: FixedColumnWidth(200),
-                                          },
+                                      return getIt<TableWithStickyHeaderController>(
+                                        param1: TableWithStickyHeaderModel(
+                                          tableCellPadding: .symmetric(
+                                            horizontal: 13,
+                                            vertical: 21,
+                                          ),
+                                          [
+                                            TableColumn1("Date"),
+                                            TableColumn1("Time"),
+                                            TableColumn1("Description"),
+                                            TableColumn1(
+                                              "Debit",
+                                              isNumberic: true,
+                                            ),
+                                            TableColumn1(
+                                              "Credit",
+                                              isNumberic: true,
+                                            ),
+                                            TableColumn1(
+                                              "Balance",
+                                              isNumberic: true,
+                                            ),
+                                            TableColumn1("Details"),
+                                          ],
 
-                                          children: snapshot.data!
-                                              .filterTheGeneralJournalsFromSpecifyDate(
-                                                c.startingDateNotifier.value,
-                                              )
-                                              .map((a) {
-                                                balance += a.entries[0]
-                                                    .getConditionedAmount();
-                                                return TableRow(
-                                                  decoration: BoxDecoration(
-                                                    border: .fromLTRB(
-                                                      bottom: BorderSide(
-                                                        color: Colors.black12,
+                                          [
+                                            ...snapshot.data!
+                                                .filterTheGeneralJournalsFromSpecifyDate(
+                                                  c.startingDateNotifier.value,
+                                                )
+                                                .map((a) {
+                                                  balance += a.entries[0]
+                                                      .getConditionedAmount();
+                                                  return TableRow1([
+                                                    TableCell1(
+                                                      Text(
+                                                        a.id != 0
+                                                            ? """${a.journalDate.day}/${a.journalDate.month}/${a.journalDate.year}"""
+                                                            : "",
                                                       ),
                                                     ),
-                                                  ),
-                                                  children: [
-                                                    TableCell(
-                                                      child: Container(
-                                                        padding: .symmetric(
-                                                          vertical: 34,
-                                                        ),
-                                                        child: Text(
-                                                          """${a.journalDate.day}/${a.journalDate.month}/${a.journalDate.year}""",
-
-                                                          softWrap: true,
-                                                          textAlign: .left,
-                                                          style: Theme.of(
-                                                            context,
-                                                          ).textTheme.bodyLarge,
-                                                        ),
+                                                    TableCell1(
+                                                      Text(
+                                                        a.id != 0
+                                                            ? """${a.journalDate.hour}:${a.journalDate.minute}"""
+                                                            : "",
                                                       ),
                                                     ),
-                                                    TableCell(
-                                                      child: Container(
-                                                        padding: .symmetric(
-                                                          vertical: 34,
-                                                        ),
-                                                        child: Text(
-                                                          """${a.journalDate.hour}:${a.journalDate.minute}""",
-
-                                                          softWrap: true,
-                                                          textAlign: .left,
-                                                          style: Theme.of(
-                                                            context,
-                                                          ).textTheme.bodyLarge,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    TableCell(
-                                                      child: Text(
+                                                    TableCell1(
+                                                      Text(
                                                         a.description,
-                                                        textAlign: .left,
                                                         softWrap: true,
-                                                        style: Theme.of(
-                                                          context,
-                                                        ).textTheme.bodyLarge,
                                                       ),
                                                     ),
-                                                    TableCell(
-                                                      child: Text(
+                                                    TableCell1(
+                                                      Text(
                                                         a.entries[0].isDebit
                                                             ? a
                                                                   .entries[0]
                                                                   .amount
                                                                   .toString()
                                                             : "-",
-                                                        textAlign: .right,
-                                                        style: Theme.of(
-                                                          context,
-                                                        ).textTheme.bodyLarge,
                                                       ),
                                                     ),
-                                                    TableCell(
-                                                      child: Text(
+                                                    TableCell1(
+                                                      Text(
                                                         !a.entries[0].isDebit
                                                             ? a
                                                                   .entries[0]
                                                                   .amount
                                                                   .toString()
                                                             : "-",
-                                                        textAlign: .right,
-                                                        style: Theme.of(
-                                                          context,
-                                                        ).textTheme.bodyLarge,
                                                       ),
                                                     ),
-                                                    TableCell(
-                                                      child: Text(
-                                                        balance.toString(),
-                                                        textAlign: .right,
-                                                        style: Theme.of(
-                                                          context,
-                                                        ).textTheme.bodyLarge,
-                                                      ),
+                                                    TableCell1(
+                                                      Text(balance.toString()),
                                                     ),
-                                                    TableCell(
-                                                      child: Padding(
-                                                        padding: .symmetric(
-                                                          horizontal: 50,
-                                                        ),
-                                                        child: IconButton(
-                                                          alignment: .center,
-                                                          onPressed: () {
-                                                            Navigator.of(
-                                                              context,
-                                                            ).push(
-                                                              MaterialPageRoute(
-                                                                builder: (context) =>
-                                                                    getIt<
-                                                                          JournalDetailsController
-                                                                        >(
-                                                                          param1: JournalDetailsModel(
-                                                                            journalId:
-                                                                                a.id,
-                                                                          ),
-                                                                        )
-                                                                        .getView(),
+                                                    TableCell1(
+                                                      a.id != 0
+                                                          ? OutlinedButton(
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                  context,
+                                                                ).push(
+                                                                  MaterialPageRoute(
+                                                                    builder: (context) =>
+                                                                        getIt<
+                                                                              JournalDetailsController
+                                                                            >(
+                                                                              param1: JournalDetailsModel(
+                                                                                journalId: a.id,
+                                                                              ),
+                                                                            )
+                                                                            .getView(),
+                                                                  ),
+                                                                );
+                                                              },
+                                                              child: Text(
+                                                                "Details",
                                                               ),
-                                                            );
-                                                          },
-                                                          icon: Icon(
-                                                            Icons.arrow_right,
-                                                          ),
-                                                        ),
-                                                      ),
+                                                            )
+                                                          : Container(),
                                                     ),
-                                                  ],
-                                                );
-                                              })
-                                              .toList(),
+                                                  ]);
+                                                }),
+                                          ],
                                         ),
-                                      );
+                                      ).getView();
                                     },
                                   ),
                                 ),

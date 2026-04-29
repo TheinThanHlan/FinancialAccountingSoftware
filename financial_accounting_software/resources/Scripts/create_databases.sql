@@ -1,18 +1,21 @@
 create Table AccountType(
 	id INTEGER PRIMARY KEY,
   name Text unique not null,
-  start_at Text unique not null,
+  start_with INTEGER not null,
   isIncreaseInDebit boolean not null
 );
 
 insert into AccountType values 
-(1,"assets","1",1), 
-(2,"liabilities","2",0), 
-(3,"equity","3",0), 
-(4,"revenue or income","4",0), 
-(5,"expenses","5",0);
-
-
+(1,'assets',1,1), 
+(2,'liabilities',2,0), 
+(3,'equity',3,0), 
+(4,'revenue',4,0), 
+(5,'expenses',5,0),
+(6,'contra assets',6,0), 
+(7,'contra liabilities',6,1), 
+(8,'contra equity',6,1), 
+(9,'contra revenue',6,1), 
+(10,'contra expenses',6,1);
 
 
 --coa = chart of accounts
