@@ -17,7 +17,7 @@ class GeneralLedgerController {
 
   //use to notivy the current coa to coa detailed side
   ValueNotifier<COA> currentSelectedCOANotifier = ValueNotifier(COA.empty());
-  ValueNotifier<DateTime> startingDateNotifier = ValueNotifier(DateTime(2000));
+  ValueNotifier<DateTime> startingDateNotifier = ValueNotifier(DateTime(0));
   int selectedCoaHierarchy = 0;
   String searchCoa = "";
 
@@ -28,11 +28,10 @@ class GeneralLedgerController {
   //final module = getIt<GetIt>(instanceName:);
   GeneralLedgerController(this.view, this.languageFactory, {this.data}) {
     view.c = this;
+    view.getCoas = getCoas;
   }
   void reset() {}
-  Future<COAHierarchy> getCOAHierarchy() async {
-    return getIt<COADao>().search("").then((a) {
-      return COAHierarchy.fromJson(a);
-    });
+  Future<List<COA>> getCoas(String n) async {
+    return getIt<COADao>().search(n);
   }
 }

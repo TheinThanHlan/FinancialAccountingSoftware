@@ -7,11 +7,12 @@ import './GeneralLedgerController.dart';
 import 'package:winter/winter.dart';
 
 class GeneralLedger extends StatelessWidget {
+  late final Future<List<COA>> Function(String) getCoas;
   late final GeneralLedgerController c;
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: c.getCOAHierarchy(),
+      future: getCoas(""),
       builder: (context, snapshot) {
         if (snapshot.data != null) {
           return Row(
@@ -26,50 +27,6 @@ class GeneralLedger extends StatelessWidget {
                       spacing: 10,
                       crossAxisAlignment: .stretch,
                       children: [
-                        Text(
-                          "Ledger Level",
-                          style: Theme.of(context).textTheme.headlineSmall,
-                          textAlign: .start,
-                        ),
-                        Wrap(
-                          direction: .horizontal,
-                          spacing: 10,
-                          runSpacing: 10,
-                          children: [
-                            for (
-                              int a = 0;
-                              a < snapshot.data!.hierarchy.length;
-                              a++
-                            )
-                              InkWell(
-                                borderRadius: .circular(4),
-                                onTap: () {
-                                  c.selectedCoaHierarchy = a;
-                                  setState(() {});
-                                },
-                                child: Container(
-                                  alignment: .center,
-                                  decoration: BoxDecoration(
-                                    borderRadius: .circular(4),
-                                    border: BoxBorder.all(
-                                      color: Colors.black26,
-                                    ),
-                                    color: c.selectedCoaHierarchy == a
-                                        ? Colors.black12
-                                        : Colors.transparent,
-                                  ),
-                                  width: 50,
-                                  height: 40,
-                                  child: Text(
-                                    (a + 1).toString(),
-                                    style: Theme.of(
-                                      context,
-                                    ).textTheme.headlineSmall,
-                                  ),
-                                ),
-                              ),
-                          ],
-                        ),
                         Container(
                           alignment: .topLeft,
                           width: 500,
@@ -102,9 +59,7 @@ class GeneralLedger extends StatelessWidget {
                               crossAxisAlignment: .stretch,
                               mainAxisAlignment: .start,
                               children: [
-                                for (var a
-                                    in snapshot.data!.hierarchy[c
-                                        .selectedCoaHierarchy])
+                                for (var a in snapshot.data!)
                                   if (a.account.toLowerCase().contains(
                                         c.searchCoa.toLowerCase(),
                                       ) ||
@@ -162,7 +117,6 @@ class GeneralLedger extends StatelessWidget {
                   ),
                 ),
               ),
-
               Expanded(
                 child: ValueListenableBuilder(
                   valueListenable: c.currentSelectedCOANotifier,

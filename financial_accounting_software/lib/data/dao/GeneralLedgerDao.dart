@@ -22,7 +22,7 @@ class GeneralLedgerDao {
           journalDate  from JournalEntry  je inner join GeneralJournal  gj
           on gj.id=je.generalJournalId
           inner join COA on COA.id=je.affectedAccountId
-          where COA.code Like '${coa.code}%' order by journalDate
+          where COA.id = ${coa.id} order by journalDate
           """)
           .then((j) {
             return j.map((a) {
